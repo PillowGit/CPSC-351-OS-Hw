@@ -56,7 +56,7 @@ void computeHash(const string &hashProgName) {
   /** TODO: Now, lets read a message from the parent **/
   // tldr; We are reading the file name from the parent process through the
   // pipe. This is honestly a really weird process if you've never seen it done,
-  // so read the over TODO #2 in parentFunc for more info. The exact steps are
+  // so read the over TODO #3 in parentFunc for more info. The exact steps are
   // explained there, and we are doing the same thing here, just with a
   // different buffer and pipe.
   ssize_t readAmount =
