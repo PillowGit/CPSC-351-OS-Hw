@@ -47,6 +47,7 @@ void *alpha(void *arg) {
 
   return NULL;
 }
+
 /*
  *
  * Numeric Printing Thread
@@ -85,31 +86,14 @@ void *numeric(void *arg) {
   return NULL;
 }
 
-int main(int argc, char *argv[]) {
-  /*
-   *
-   * Argument handling
-   *
-   */
-
-  // Store the users input
-  std::string arg{};
-
-  // Analyze the amount of arguments given and handle them accordingly
-  if (argc > 2) {
-    // The argument should only be one string
-    std::cout << "The program should only recieve one argument." << std::endl;
-    return 1;
-  } else if (argc == 2) {
-    // We have one argument given
-    arg = argv[1];
-  } else {
-    // We have to use cin for the input
-    std::cout << "Please enter an argument: ";
-    std::getline(std::cin, arg);
-    std::cout << std::endl;
-  }
-
+/*
+ *
+ * Function to instantiate the list of words given an input sentence. This also
+ * makes sure every word starts with a letter or a number, and returns the
+ * status.
+ *
+ */
+int split_words(std::string arg) {
   // Split the input sentence into words
   arg.push_back(' ');
   std::string current_word{};
@@ -119,6 +103,58 @@ int main(int argc, char *argv[]) {
       current_word.clear();
     } else {
       current_word += arg[i];
+    }
+  }
+  // Verify every word starts with a letter or a number
+  for (const std::string &word : words) {
+    if (!isalpha(word[0]) && !isdigit(word[0])) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/*
+ *
+ *  Main Function
+ *
+ */
+int main(int argc, char *argv[]) {
+  /*
+   *
+   * Argument handling
+   *
+   */
+
+  // Analyze the amount of arguments given and handle them accordingly
+  if (argc > 2) {
+    // The argument should only be one string
+    std::cout << "The program should only recieve one argument." << std::endl;
+    return 1;
+  } else if (argc == 2) {
+    // Split the words from the argument
+    int input_status = split_words(argv[1]);
+    if (input_status != 0) {
+      std::cout << "The input sentence should only contain words that start "
+                << "with a letter or a number." << std::endl;
+      return 1;
+    }
+  } else {
+    // We have to use cin for the input
+    std::string arg{};
+    std::cout << "Please enter a sentence to print: ";
+    std::getline(std::cin, arg);
+    std::cout << std::endl;
+    int input_status = split_words(arg);
+    while (input_status != 0) {
+      std::cout << arg << std::endl;
+      std::cout << "The input sentence should only contain words that start "
+                << "with a letter or a number." << std::endl;
+      std::cout << "Please enter a sentence to print: ";
+      std::getline(std::cin, arg);
+      std::cout << std::endl;
+      words.clear();
+      input_status = split_words(arg);
     }
   }
 
