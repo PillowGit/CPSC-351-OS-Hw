@@ -40,6 +40,7 @@ void *alpha(void *arg) {
       std::cout << name << ": " << words[current_word] << std::endl;
       current_word++;
     }
+
     // Let the next thread know it's their turn
     wait_group = (wait_group + 1) % group_total;
   }
@@ -76,6 +77,7 @@ void *numeric(void *arg) {
       std::cout << name << ": " << words[current_word] << std::endl;
       current_word++;
     }
+
     // Let the next thread know it's their turn
     wait_group = (wait_group + 1) % group_total;
   }
@@ -95,18 +97,17 @@ int main(int argc, char *argv[]) {
 
   // Analyze the amount of arguments given and handle them accordingly
   if (argc > 2) {
-    // THe argument should only be one string
+    // The argument should only be one string
     std::cout << "The program should only recieve one argument." << std::endl;
     return 1;
   } else if (argc == 2) {
     // We have one argument given
     arg = argv[1];
-    std::cout << "You have given the argument:\n" << arg << std::endl;
   } else {
     // We have to use cin for the input
-    std::cout << "Please enter an argument:\n";
+    std::cout << "Please enter an argument: ";
     std::getline(std::cin, arg);
-    std::cout << "You have given the argument:\n" << arg << std::endl;
+    std::cout << std::endl;
   }
 
   // Split the input sentence into words
